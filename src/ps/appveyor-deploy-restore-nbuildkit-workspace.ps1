@@ -16,6 +16,31 @@ try
 {
     $powershellScriptPath = (Join-Path $scriptPath "src\ps")
     
+    $token = $env:AppVeyorApiToken
+    $headers = @{ "Authorization" = "Bearer $token" }
+
+    # Search the project history to find the last successful build of the given project and the given branch
+    $projectSlug = $projectToDeploy
+
+    "Getting build history for $projectToDeploy ..."
+    $historyUrl = "https://ci.appveyor.com/api/projects/$accountName/$projectSlug/history?recordsNumber=25"
+    $historyResponse = Invoke-RestMethod -Uri $historyUrl -Headers $headers -Method Get
+    $projectId = $historyResponse.project.projectId
+    $builds = $historyResponse.builds
+
+    $message
+    foreach($build in $builds)
+    {
+        if (($build.branch -eq $branchToDeploy) -and ($build.status -eq "success"))
+        {
+            $message = $build.message
+            break;
+        }
+    }
+    
+    "Updating the build message to match the deployed artifact message ..."
+    Update-AppVeyorBuild -Message $message
+    
     # Download the VCS info and version files
     "Downloading the VCS info and version files ..."
     $vcsInfoFile = "build\temp\vcs.info.json"
