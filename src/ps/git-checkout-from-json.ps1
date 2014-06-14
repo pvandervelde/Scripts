@@ -45,7 +45,7 @@ try
     "Switching to branch: $branch at revision: $revision"
 
     sl $workspace
-    & git checkout $revision
+    & git checkout -q $revision
 }
 finally
 {
