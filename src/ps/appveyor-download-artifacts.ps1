@@ -32,7 +32,6 @@ foreach($build in $builds)
     }
 }
 
-
 "Getting extended information for build $buildVersion (Id: $buildId) ..."
 $buildUrl = "https://ci.appveyor.com/api/projects/$accountName/$projectSlug/build/$buildVersion"
 $buildResponse = Invoke-RestMethod -Uri $buildUrl -Headers $headers -Method Get
