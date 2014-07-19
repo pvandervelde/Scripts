@@ -1,6 +1,8 @@
 ﻿param(
 	[string]$jenkinsDir = $env:JENKINS_HOME,
-    [string]$remoteDir = $(throw 'Need a remote directory')
+    [string]$remoteDir = $(throw 'Need a remote directory'),
+    [string]$tempDir = [System.IO.Path]::GetTempPath(),
+    [string]$7zipDir = "$Env:ProgramW6432\7-Zip"
  )
 
 $ErrorActionPreference = 'Stop'
@@ -8,9 +10,8 @@ $ErrorActionPreference = 'Stop'
 Write-Output "Copying files from Jenkins directory located at: $jenkinsDir"
 
 # Create a temp dir with a random name
-$tempPath = [System.IO.Path]::GetTempPath()
-$tempDir = [System.IO.Path]::GetRandomFileName()
-$tempPath = Join-Path $tempPath $tempDir
+$tempDirName = [System.IO.Path]::GetRandomFileName()
+$tempPath = Join-Path $tempDir $tempDirName
 
 $baseDir = New-Item -Path (Split-Path $tempPath) -Name (Split-Path $tempPath -Leaf) -ItemType "directory"
 try
@@ -114,7 +115,7 @@ try
 	$output = Join-Path $baseDir ("JenkinsBackup_" + [System.DateTime]::Now.ToString("yyyy_MM_dd-HH_mm_ss") + ".7z")
 	
 	# zip the jenkins temp dir
-	$7zipExe = "$Env:ProgramW6432\7-Zip\7z.exe"
+	$7zipExe = Join-Path $7zipDir "7z.exe"
 	& $7zipExe a -t7z $output $jenkinsBackupDir.FullName
 	if ($LastExitCode -ne 0)
 	{
