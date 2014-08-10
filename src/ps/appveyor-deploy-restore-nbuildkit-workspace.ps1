@@ -54,6 +54,9 @@ try
     # Read the version file and build the paths
     $versionFileContents = $text = [IO.File]::ReadAllText((Join-Path $projectDir $versionFile))
     $versionComplete = ConvertFrom-Json $versionFileContents
+    $versionComplete
+
+    "Getting the semantic version."
     $version = $versionComplete.SemVer
     $version
     
