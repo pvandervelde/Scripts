@@ -54,7 +54,7 @@ try
     # Read the version file and build the paths
     $versionFileContents = $text = [IO.File]::ReadAllText((Join-Path $projectDir $versionFile))
     $versionComplete = ConvertFrom-Json $versionFileContents
-    $version = $versionComplete.GitHubFlowVersion_SemVer
+    $version = $versionComplete.SemVer
     $version
     
     # Mangle the download paths in case they have a ${version} in their path
