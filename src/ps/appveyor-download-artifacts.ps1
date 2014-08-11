@@ -28,6 +28,8 @@ foreach($build in $builds)
         $buildId = $build.buildId
         $buildVersion = $build.version
         $commitId = $build.commitId
+
+        "Found the desired artifacts ..."
         break;
     }
 }
