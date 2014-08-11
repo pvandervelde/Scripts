@@ -37,6 +37,10 @@ try
         # and push to the origin
         $output = & $gitExe push origin master --porcelain
         Write-Output $output
+        if ($output -match "error:")
+        {
+            throw "Failed to push to origin"
+        }
     }
 }
 finally
