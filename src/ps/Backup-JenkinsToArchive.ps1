@@ -99,7 +99,7 @@ try
         
         # Copy the Builds directory
         $buildsDir = Get-ChildItem $dir.FullName | Where-Object { (($_.PSIsContainer) -and ($_.Name -eq "builds")) } 
-        if (Test-Path $buildsDir)
+        if (($buildsDir -ne $null) -and (Test-Path $buildsDir))
         {
             $buildsPath = $buildsDir.FullName
             
