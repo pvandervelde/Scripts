@@ -35,7 +35,7 @@ try
         Write-Output $output
 
         # and push to the origin
-        $output = & $gitExe push origin master --porcelain
+        $output = & $gitExe push origin --porcelain
         Write-Output $output
         if ($output -match "error:")
         {
