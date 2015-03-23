@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # copy the files from the jenkins dir
-& robocopy $jenkinsDir $backupDir /s /mir /xf "*.log" "*.war" "*.bak" "*.old" /xd "workspace" "builds" "plugins" "updates" "userContent" "war" "jenkins.diagnostics*" ".git" /xj /xjd /xjf
+& robocopy $jenkinsDir $backupDir /s /mir /xf "*.log" "*.war" "*.bak" "*.old" /xd "workspace" "cobertura" "builds" "plugins" "updates" "userContent" "war" "jenkins.diagnostics*" ".git" /xj /xjd /xjf
 
 $now = [System.DateTimeOffset]::Now
 
